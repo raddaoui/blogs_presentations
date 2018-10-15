@@ -1,0 +1,18 @@
+plugins:
+  raddaoui/flask_app_cicd_demo:
+  # Enable /approve and /assign commands.
+  - approve
+  - assign
+  - blunderbuss
+  - help
+  - hold
+  - label
+  - lgtm
+  # Lets PRs & issues be flagged as stale
+  - lifecycle
+  - size
+  # Allows cleaning up stale commit statuses
+  - skip
+  # Applies a label to PRs with wip in the title to block merge
+  - wip
+  - trigger

@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echoserver-pod
+spec:
+  containers:
+  - name: echoserver-container
+    image: raddaoui/echoserver:v1
+    ports:
+    - containerPort: 8888

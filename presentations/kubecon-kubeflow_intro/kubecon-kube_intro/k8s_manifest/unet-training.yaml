@@ -1,0 +1,42 @@
+---
+apiVersion: kubeflow.org/v1alpha1
+kind: TFJob
+metadata:
+  name: test-unet1 
+  namespace: kubeflow
+spec:
+  replicaSpecs:
+  - replicas: 3
+    template:
+      spec:
+        containers:
+          image: docker.io/raddaoui/tfjob_unet_distributed:1.0
+          name: tensorflow
+          volumeMounts:
+          - name: dataset-storage
+            mountPath: /tmp/slices/Results/
+        restartPolicy: OnFailure
+        volumes:
+        - name: dataset-storage
+          persistentVolumeClaim:
+           claimName: unet-dataset
+    tfReplicaType: WORKER
+  - replicas: 1
+    template:
+      spec:
+        containers:
+          image: docker.io/raddaoui/tfjob_unet_distributed:1.0
+          name: tensorflow
+          volumeMounts:
+          - name: dataset-storage
+            mountPath: /tmp/slices/Results/
+        restartPolicy: OnFailure
+        volumes:
+        - name: dataset-storage
+          persistentVolumeClaim:
+           claimName: unet-dataset
+    tfReplicaType: PS
+  terminationPolicy:
+    chief:
+      replicaIndex: 0
+      replicaName: WORKER

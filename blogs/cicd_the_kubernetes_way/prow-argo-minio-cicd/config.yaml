@@ -1,0 +1,62 @@
+tide:
+  queries:
+  - orgs:
+    - raddaoui
+    labels:
+    - lgtm
+    - approved
+    missingLabels:
+    - do-not-merge
+    - do-not-merge/hold
+    - do-not-merge/work-in-progress
+    - needs-ok-to-test
+    - needs-rebase
+
+periodics:
+- interval: 10m
+  agent: kubernetes
+  name: echo-test
+  spec:
+    containers:
+    - image: alpine
+      command: ["/bin/date"]
+
+postsubmits:
+  raddaoui/flask_app_cicd_demo:
+  - name: test-postsubmit
+    agent: kubernetes
+    spec:
+      containers:
+      - image: alpine
+        command: ["/bin/printenv"]
+    max_concurrency: 10   # Run no more than this number concurrently.
+    branches:             # Only run against these branches.
+    - master
+  - name: release-postsubmit
+    agent: kubernetes
+    spec:
+      containers:
+      - image: docker.io/raddaoui/raddaoui-cicd:5.0
+        env:
+        - name: workflow_chart
+          value: release_workflow
+    max_concurrency: 10   # Run no more than this number concurrently.
+    branches:             # Only run against these branches.
+    - master
+
+presubmits:
+  raddaoui/flask_app_cicd_demo:
+  - name: workflow-test-presubmit
+    trigger: "(?m)^/test workflow"
+    rerun_command: "/test workflow"
+    context: workflow-test-presubmit
+    always_run: true               # Run for every PR, or only when requested.
+    skip_report: false             # Whether to skip setting a status on GitHub.
+    agent: kubernetes
+    max_concurrency: 10
+    spec:
+      containers:
+      - image: docker.io/raddaoui/raddaoui-cicd:5.0
+        env:
+        - name: workflow_chart
+          value: testing_workflow

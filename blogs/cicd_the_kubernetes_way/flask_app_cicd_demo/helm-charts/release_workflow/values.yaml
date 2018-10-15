@@ -1,0 +1,5 @@
+workflowname: flask-app-releasewf-1004461150483517441
+pull-number: 1
+repo-name: flask_app_cicd_demo
+repo-owner: raddaoui
+build-number: 1004461150483517441

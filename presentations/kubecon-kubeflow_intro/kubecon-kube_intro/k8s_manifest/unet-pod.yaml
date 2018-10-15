@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dataset-download6
+spec:
+  containers:
+  - name: dataset
+    image: minio/mc
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 600"]
+    volumeMounts:
+    - name: dataset-storage
+      mountPath: /tmp/dataset
+  volumes:
+    - name: dataset-storage
+      persistentVolumeClaim:
+         claimName: unet-dataset

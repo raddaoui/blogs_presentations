@@ -1,0 +1,6 @@
+tensorflow==1.4.0
+h5py
+numpy
+opencv-python
+SimpleITK
+tqdm

@@ -1,0 +1,2 @@
+appname: flask-app
+image: raddaoui/flask-app:1f3e4101df8fc42b7bb5b81dcbf87c9af4f1b883

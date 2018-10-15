@@ -1,0 +1,8 @@
+FROM python:2.7
+RUN apt-get update
+RUN mkdir -p /opt
+WORKDIR /opt
+ADD requirements.txt /opt/requirements.txt
+RUN pip install -r /opt/requirements.txt
+ADD unet_distributed /opt
+ENTRYPOINT [ "python", "test_dist.py", "--is_sync", "0" ]
