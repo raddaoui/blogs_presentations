@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: printhostname
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: printhostname
+  template:
+    metadata:
+      labels:
+        app: printhostname
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: debug
+        image: docker.io/raddaoui/printhostname:v1
+        ports:
+        - containerPort: 80
+          name: http

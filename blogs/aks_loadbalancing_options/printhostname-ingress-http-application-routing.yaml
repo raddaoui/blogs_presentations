@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: printhostname-svc
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: printhostname
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: printhostname-ig
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: printhostname.$CLUSTER_DNS_ZONE
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: printhostname-svc
+            port:
+              number: 80
