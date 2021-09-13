@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: debug-svc-internal2
+  name: printhostname-svc-internal
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   ports:
   - port: 80
+    targetPort: 80
   selector:
-    app: debug
+    app: printhostname
